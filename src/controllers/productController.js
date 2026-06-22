@@ -13,6 +13,7 @@ const getOne = async (req, res) => {
 
 const create = async (req, res) => {
   const { name, description, price, stock, image } = req.body;
+  if (!name || !price) return res.status(400).json({ message: 'Name and price are required' });
   const product = await Product.create({ name, description, price, stock, image });
   res.status(201).json(product);
 };

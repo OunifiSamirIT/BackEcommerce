@@ -13,9 +13,20 @@ const getOne = async (req, res) => {
 
 const create = async (req, res) => {
   const { name, description, price, stock, image } = req.body;
+  if (!name || !price) return res.status(400).json({ message: 'Name and price are required' });
   const product = await Product.create({ name, description, price, stock, image });
   res.status(201).json(product);
 };
+if (price === undefined || price === null || typeof price !== "number" || Number.isNaN(price)) {
+      return res.status(400).json({
+        message: "Le prix doit être un nombre valide"
+      });
+    }
+if (price < 0) {
+      return res.status(400).json({
+        message: "Le prix doit être supérieur à 0"
+      });
+    }
 
 const update = async (req, res) => {
   const product = await Product.findByPk(req.params.id);
